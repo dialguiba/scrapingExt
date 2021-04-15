@@ -1,106 +1,118 @@
-let btnstrap = document.getElementById('btnstrap')
+let btnstrap = document.getElementById("btnstrap");
 
-btnstrap.addEventListener('click', async () => {
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id},
-        function: scrapingProfile,
-    })
-})
+btnstrap.addEventListener("click", async () => {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    function: scrapingProfile,
+  });
+});
 
 function scrapingProfile() {
+  const cssSelectorsProfile = {
+    profile: {
+      name: "div.ph5 > div.mt2 > div > ul > li",
+      resumen: "div.ph5 > div.mt2 > div > ul ~ h2",
+      // country: 'div.ph5.pb5 > div.display-flex.mt2.pv-top-card--reflow > div.pv-top-card__list-container > ul.cx.mt1 > li'
+      country: "div.ph5 > div.mt2 > div > ul.mt1 > li.t-16",
+      email: "div > section.pv-contact-info__contact-type.ci-email > div > a",
+      phone: "div > section.pv-contact-info__contact-type.ci-phone > ul > li > span",
+      urlLinkedin: "div > section.pv-contact-info__contact-type.ci-vanity-url > div > a",
+      education: "div.ph5 .pv-top-card--experience-list > li ~ li",
+      experience: "#experience-section li",
+    },
+    option: {
+      buttonSeeMore: '[data-control-name="contact_see_more"]',
+      buttonCloseSeeMore: "button.artdeco-modal__dismiss",
+    },
+  };
 
-    const cssSelectorsProfile = {
-        profile: {
-            name: 'div.ph5 > div.mt2 > div > ul > li',
-            resumen: 'div.ph5 > div.mt2 > div > ul ~ h2',
-            // country: 'div.ph5.pb5 > div.display-flex.mt2.pv-top-card--reflow > div.pv-top-card__list-container > ul.cx.mt1 > li'
-            country: 'div.ph5 > div.mt2 > div > ul.mt1 > li.t-16',
-            email: 'div > section.pv-contact-info__contact-type.ci-email > div > a',
-            phone: 'div > section.pv-contact-info__contact-type.ci-phone > ul > li > span',
-            urlLinkedin: 'div > section.pv-contact-info__contact-type.ci-vanity-url > div > a'
-        },
-        option: {
-            buttonSeeMore: '[data-control-name="contact_see_more"]',
-            buttonCloseSeeMore: 'button.artdeco-modal__dismiss'
-        }
+  const wait = (milliseconds) => {
+    return new Promise(function (resolve) {
+      setTimeout(function () {
+        resolve();
+      }, milliseconds);
+    });
+  };
+
+  const autoscrollToElement = async function (cssSelector) {
+    const exists = document.querySelector(cssSelector);
+
+    while (exists) {
+      let maxScrollTop = document.body.clientHeight - window.innerHeight;
+      let elementScrollTop = document.querySelector(cssSelector).offsetHeight;
+      let currentScrollTop = window.scrollY;
+
+      if (maxScrollTop == currentScrollTop || elementScrollTop <= currentScrollTop) break;
+
+      await wait(32);
+
+      let newScrollTop = Math.min(currentScrollTop + 20, maxScrollTop);
+
+      window.scrollTo(0, newScrollTop);
     }
 
-    const wait = (milliseconds) => {
-        return new Promise(function(resolve){
-            setTimeout(function(){
-                resolve()
-            }, milliseconds);
-        })
-    }
+    console.log("Finish autoscroll to element %s", cssSelector);
 
-    const autoscrollToElement = async function(cssSelector){
-        const exists = document.querySelector(cssSelector)
+    return new Promise(function (resolve) {
+      resolve();
+    });
+  };
 
-        while (exists){
-            let maxScrollTop = document.body.clientHeight - window.innerHeight
-            let elementScrollTop = document.querySelector(cssSelector).offsetHeight
-            let currentScrollTop = window.scrollY
+  const getContactProfile = async () => {
+    const {
+      profile: {
+        name: nameCss,
+        resumen: resumenCss,
+        country: countryCss,
+        email: emailCss,
+        phone: phoneCss,
+        urlLinkedin: urlLinkedinCss,
+        experience: experienceCss,
+      },
+      option: { buttonSeeMore: buttonSeeMoreCss, buttonCloseSeeMore: buttonCloseSeeMoreCss },
+    } = cssSelectorsProfile;
 
-            if (maxScrollTop == currentScrollTop || elementScrollTop <= currentScrollTop)
-                break
+    const name = document.querySelector(nameCss)?.innerText;
+    const resumen = document.querySelector(resumenCss)?.innerText;
+    const country = document.querySelector(countryCss)?.innerText;
 
-            await wait(32)
+    const buttonSeeMore = document.querySelector(buttonSeeMoreCss);
+    buttonSeeMore.click();
 
-            let newScrollTop = Math.min(currentScrollTop + 20, maxScrollTop)
+    await wait(1000);
 
-            window.scrollTo(0, newScrollTop)
-        }
+    const email = document.querySelector(emailCss)?.innerText;
+    const phone = document.querySelector(phoneCss)?.innerText;
 
-        console.log('Finish autoscroll to element %s', cssSelector)
+    let urlLinkedin = document.querySelector(urlLinkedinCss)?.innerText;
+    if (urlLinkedin) urlLinkedin = `https://${urlLinkedin}`;
 
-        return new Promise(function(resolve){
-            resolve()
-        })
-    }
+    const buttonCloseSeeMore = document.querySelector(buttonCloseSeeMoreCss);
+    buttonCloseSeeMore.click();
 
-    const getContactProfile = async () => {
-        const {
-            profile: {
-                name: nameCss,
-                resumen: resumenCss,
-                country: countryCss,
-                email: emailCss,
-                phone: phoneCss,
-                urlLinkedin: urlLinkedinCss
-            },
-            option: {
-                buttonSeeMore: buttonSeeMoreCss,
-                buttonCloseSeeMore: buttonCloseSeeMoreCss
-            }
-        } = cssSelectorsProfile
+    await autoscrollToElement("body");
 
-        const name = document.querySelector(nameCss)?.innerText
-        const resumen = document.querySelector(resumenCss)?.innerText
-        const country = document.querySelector(countryCss)?.innerText
+    let experience = [];
+    document.querySelectorAll(experienceCss).forEach((el) => {
+      experience.push({
+        name: el.querySelector("h3").textContent,
+        entity: el.querySelector(".pv-entity__secondary-title").firstChild.wholeText.trim(),
+        scheduleType: el.querySelector(".pv-entity__secondary-title span")?.innerText,
+        timeRange: el.querySelectorAll("h4")[0]?.querySelectorAll("span")[1].innerText,
+        time: el.querySelectorAll("h4")[1]?.querySelectorAll("span")[1].innerText,
+        place: el.querySelectorAll("h4")[2]?.querySelectorAll("span")[1].innerText,
+      });
+    });
 
-        const buttonSeeMore = document.querySelector(buttonSeeMoreCss)
-        buttonSeeMore.click()
+    return { name, resumen, country, email, phone, urlLinkedin, experience };
+  };
 
-        await wait(1000)
+  const getProfile = async () => {
+    const profile = await getContactProfile();
 
-        const email = document.querySelector(emailCss)?.innerText
-        const phone = document.querySelector(phoneCss)?.innerText
-        let urlLinkedin = document.querySelector(urlLinkedinCss)?.innerText
-        if (urlLinkedin)
-            urlLinkedin = `https://${urlLinkedin}`
+    console.log(profile);
+  };
 
-        const buttonCloseSeeMore = document.querySelector(buttonCloseSeeMoreCss)
-        buttonCloseSeeMore.click()
-
-        return { name, resumen, country, email, phone, urlLinkedin }
-    }
-
-    const getProfile = async () => {
-        const profile = await getContactProfile()
-        await autoscrollToElement('body')
-        console.log(profile)
-    }
-
-    getProfile()
+  getProfile();
 }
