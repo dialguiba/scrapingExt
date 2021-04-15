@@ -11,8 +11,8 @@ btnstrap.addEventListener("click", async () => {
 function scrapingProfile() {
   const cssSelectorsProfile = {
     profile: {
-      name: "div.ph5 > div.mt2 > div > ul > li",
-      resumen: "div.ph5 > div.mt2 > div > ul ~ h2",
+      name: ".pv-text-details__left-panel.mr5 h1",
+      resumen: ".text-body-medium.break-words",
       // country: 'div.ph5.pb5 > div.display-flex.mt2.pv-top-card--reflow > div.pv-top-card__list-container > ul.cx.mt1 > li'
       country: "div.ph5 > div.mt2 > div > ul.mt1 > li.t-16",
       email: "div > section.pv-contact-info__contact-type.ci-email > div > a",
@@ -22,7 +22,7 @@ function scrapingProfile() {
       experience: "#experience-section li",
     },
     option: {
-      buttonSeeMore: '[data-control-name="contact_see_more"]',
+      buttonSeeMore: ".pv3 a",
       buttonCloseSeeMore: "button.artdeco-modal__dismiss",
     },
   };
@@ -97,11 +97,11 @@ function scrapingProfile() {
     document.querySelectorAll(experienceCss).forEach((el) => {
       experience.push({
         name: el.querySelector("h3").textContent,
-        entity: el.querySelector(".pv-entity__secondary-title").firstChild.wholeText.trim(),
+        entity: el.querySelector(".pv-entity__secondary-title")?.firstChild.wholeText.trim(),
         scheduleType: el.querySelector(".pv-entity__secondary-title span")?.innerText,
-        timeRange: el.querySelectorAll("h4")[0]?.querySelectorAll("span")[1].innerText,
-        time: el.querySelectorAll("h4")[1]?.querySelectorAll("span")[1].innerText,
-        place: el.querySelectorAll("h4")[2]?.querySelectorAll("span")[1].innerText,
+        timeRange: el.querySelectorAll("h4")[0]?.querySelectorAll("span")[1]?.innerText,
+        time: el.querySelectorAll("h4")[1]?.querySelectorAll("span")[1]?.innerText,
+        place: el.querySelectorAll("h4")[2]?.querySelectorAll("span")[1]?.innerText,
       });
     });
 
@@ -112,6 +112,8 @@ function scrapingProfile() {
     const profile = await getContactProfile();
 
     console.log(profile);
+
+    document.body.innerHTML = `<div>name: ${profile.name}</div><div>phone: ${profile.phone}</div><div>resume: ${profile.resumen}</div><div>url: ${profile.urlLinkedin}</div>`;
   };
 
   getProfile();
