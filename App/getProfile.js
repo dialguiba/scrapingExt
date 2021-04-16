@@ -111,27 +111,53 @@ function scrapingProfile() {
   const getProfile = async () => {
     const profile = await getContactProfile();
 
-    console.log(profile);
+    /* console.log(profile); */
 
-    document.body.innerHTML = `<div><b>name:</b> ${profile.name}</div><div><b>phone:</b> ${profile.phone}</div><div><b>resume:</b> ${profile.resumen}</div><div><b>url:</b> ${profile.urlLinkedin}</div><br/><div><b>Experience:</b></div>`;
+    /* document.querySelector("#smartbanner-wormhole").innerHTML =
+      '<div style="position:fixed;background:black;top:0;left:0;height:500px;width:100vw;z-index:">test</div>'; */
+    let elementToInsert = document.querySelector(".ad-banner-container.is-header-zone.pv-ad-banner--light");
+
+    /* elementToInsert.innerHTML = elementToInsert.innerHTML + `<div style="position:fixed;background:gray;top:0;left:0;height:500px;width:100vw;z-index:2">`; */
+
+    elementToInsert.innerHTML =
+      elementToInsert.innerHTML +
+      `<div>
+        <b>name:</b> ${profile.name}
+      </div>
+      <div>
+        <b>phone:</b> ${profile.phone}
+      </div>
+      <div>
+        <b>resume:</b> ${profile.resumen}
+      </div>
+      <div>
+        <b>url:</b> ${profile.urlLinkedin}
+      </div>
+        <br/>
+      <div>
+        <b>Experience:</b>
+      </div>`;
 
     let experience = "";
-    profile.experience.forEach((el) => {
+    await profile.experience.forEach((el) => {
       experience =
         experience +
         `
-        <br/><ul>
-      <li>entity: ${el.entity};</li>
-      <li>name: ${el.name};</li>
-      <li>place: ${el.place};</li>
-      <li>scheduleType: ${el.scheduleType};</li>
-      <li>time: ${el.time};</li>
-      <li>timeRange: ${el.timeRange};</li>
-      </ul>`;
+        <br/>
+        <ul>
+          <li>entity: ${el.entity};</li>
+          <li>name: ${el.name};</li>
+          <li>place: ${el.place};</li>
+          <li>scheduleType: ${el.scheduleType};</li>
+          <li>time: ${el.time};</li>
+          <li>timeRange: ${el.timeRange};</li>
+        </ul>`;
     });
-    console.log(experience);
 
-    document.body.innerHTML = document.body.innerHTML + `${experience}`;
+    elementToInsert.innerHTML = elementToInsert.innerHTML + `${experience}`;
+    /* elementToInsert.innerHTML = elementToInsert.innerHTML + `</div>`; */
+
+    document.body.scrollIntoView({ block: "start", behavior: "smooth" });
   };
 
   getProfile();
