@@ -2,10 +2,15 @@ let btnstrap = document.getElementById("btnstrap");
 
 btnstrap.addEventListener("click", async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: scrapingProfile,
-  });
+  if (tab != null) {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      function: scrapingProfile,
+    });
+  } else {
+    const pAlert = document.getElementById("alert");
+    pAlert.innerText = "No se tiene permisos";
+  }
 });
 
 function scrapingProfile() {

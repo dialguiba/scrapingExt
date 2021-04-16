@@ -1,10 +1,30 @@
 {
-    "name": "Bootcamp2",
-    "description": "Get Profile",
+    "name": "Linkedin Profiles Scrapping",
+    "description": "Get Profiles Linkedin",
     "version": "1.0",
     "manifest_version": 3,
     "action": {
-        "default_popup": "./App/index.html"
+        "default_popup": "./App/popup.html",
+        "default_icon": {
+            "128": "./Icons/linkedin_blue_128.png"
+        }
     },
-    "permissions": [ "activeTab", "scripting" ]
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.linkedin.com/*"
+            ],
+            "js": [
+                "./Scrap/utils.js",
+                "./Scrap/profile.js"
+            ]
+        }
+    ],
+    "icons": {
+        "128": "./Icons/linkedin_blue_128.png"
+    },
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ]
 }
