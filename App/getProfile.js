@@ -113,7 +113,7 @@ function scrapingProfile() {
 
     console.log(profile);
 
-    document.body.innerHTML = `<div><b>name:</b> ${profile.name}</div><div><b>phone:</b> ${profile.phone}</div><div><b>resume:</b> ${profile.resumen}</div><div>url: ${profile.urlLinkedin}</div><br/><div><b>Experience:</b></div>`;
+    document.body.innerHTML = `<div><b>name:</b> ${profile.name}</div><div><b>phone:</b> ${profile.phone}</div><div><b>resume:</b> ${profile.resumen}</div><div><b>url:</b> ${profile.urlLinkedin}</div><br/><div><b>Experience:</b></div>`;
 
     let experience = "";
     profile.experience.forEach((el) => {
