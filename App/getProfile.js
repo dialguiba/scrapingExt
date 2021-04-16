@@ -114,6 +114,24 @@ function scrapingProfile() {
     console.log(profile);
 
     document.body.innerHTML = `<div>name: ${profile.name}</div><div>phone: ${profile.phone}</div><div>resume: ${profile.resumen}</div><div>url: ${profile.urlLinkedin}</div>`;
+
+    let experience = "";
+    profile.experience.forEach((el) => {
+      experience =
+        experience +
+        `
+        <br/><ul>
+      <li>entity: ${el.entity};</li>
+      <li>name: ${el.name};</li>
+      <li>place: ${el.place};</li>
+      <li>scheduleType: ${el.scheduleType};</li>
+      <li>time: ${el.time};</li>
+      <li>timeRange: ${el.timeRange};</li>
+      </ul>`;
+    });
+    console.log(experience);
+
+    document.body.innerHTML = document.body.innerHTML + `${experience}`;
   };
 
   getProfile();
