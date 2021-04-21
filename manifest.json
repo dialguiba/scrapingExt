@@ -1,8 +1,11 @@
 {
-    "name": "Linkedin Profiles Scrapping",
-    "description": "Get Profiles Linkedin",
+    "name": "Linkedin Profile",
+    "description": "Get Profile Linkedin",
     "version": "1.0",
     "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
     "action": {
         "default_popup": "./App/popup.html",
         "default_icon": {
@@ -18,6 +21,14 @@
                 "./Scrap/utils.js",
                 "./Scrap/profile.js"
             ]
+        },
+        {
+            "matches": [
+                "https://*.linkedin.com/in/*"
+            ],
+            "js": [
+                "./Scrap/load.js"
+            ]
         }
     ],
     "icons": {
@@ -25,6 +36,10 @@
     },
     "permissions": [
         "activeTab",
-        "scripting"
+        "scripting",
+        "tabs"
+    ],
+    "host_permissions": [
+        "https://www.linkedin.com/*"
     ]
 }

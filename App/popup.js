@@ -1,15 +1,27 @@
-let btnstrap = document.getElementById("btnstrap");
+let inputStrap = document.getElementById("inputstrap");
+let message = document.getElementById("message");
+let formstrap = document.getElementById("formstrap");
 
-btnstrap.addEventListener("click", async () => {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+formstrap.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  message.innerText = "Please, dont close this window until scrapping has finished";
 
-  if (tab) {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ["./Scrap/background.js"],
-    });
-  } else {
-    const pAlert = document.getElementById("alert");
-    pAlert.innerText = "No se tiene permiso para los tabs.";
-  }
+  const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+  let port = chrome.runtime.connect();
+  port.postMessage({ input: inputStrap.value });
+
+  port.onMessage.addListener(async function (msg) {
+    if (msg.init) {
+      if (activeTab) {
+        chrome.scripting.executeScript({
+          target: { tabId: activeTab.id },
+          files: ["./Scrap/init.js"],
+        });
+      } else {
+        const pAlert = document.getElementById("alert");
+        pAlert.innerText = "No se tiene permiso para los tabs.";
+      }
+    }
+  });
 });
