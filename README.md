@@ -1,7 +1,27 @@
+## _LinkedIn Scrapping_
+
+### Todo
+
+- [ ] Create API
+- [ ] Send data to DB
+
+### In Progress
+
+- [ ] Scrap all pages
+
+### Done ✓
+
+- [x] Input for specific search
+- [x] Scrap various profiles of one page
+
+## ORIGINAL
+
 ### Extensión Google Chrome
+
 Primer ejemplo de extensión en Google Chrome.
 
 ## manifest.json
+
 Configurar el manifest.json de acuerdo al ejemplo:
 
 ```
