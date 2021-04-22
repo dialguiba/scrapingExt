@@ -6,7 +6,7 @@
 
 ### In Progress
 
-- [ ] Create API
+- [ ] Create API (https://github.com/dialguiba/scrapingExtApi)
 
 ### Done ✓
 
