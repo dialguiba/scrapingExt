@@ -254,10 +254,7 @@ const scrapingProfile = () => {
     pre.innerText = JSON.stringify(profile, null, 2);
 
     /* send message with data to background */
-    let port = chrome.runtime.connect();
-    port.postMessage({ profile });
-
-    /*  */
+    chrome.runtime.sendMessage({ profile });
 
     button.addEventListener("click", () => {
       div.remove();

@@ -1,18 +1,15 @@
-/* getPages(); */
-
 (async () => {
-  let profileLinks = [];
+  let links = [];
 
   await autoscrollToElement("body");
 
-  document.querySelectorAll(".pv2").forEach((block) => {
-    block.querySelectorAll("li").forEach((profileElement) => {
-      profileLinks.push(profileElement.querySelector("a").toString());
+  await document.querySelectorAll(".pv2").forEach((block) => {
+    block.querySelectorAll(".reusable-search__result-container").forEach((profileElement) => {
+      links.push(profileElement.querySelector("a").toString());
     });
   });
 
-  let port = chrome.runtime.connect();
-  port.postMessage({ profileLinks });
+  chrome.runtime.sendMessage({ links });
 })().catch((err) => {
   console.error(err);
 });

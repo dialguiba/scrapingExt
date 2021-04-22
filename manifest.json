@@ -3,9 +3,6 @@
     "description": "Get Profile Linkedin",
     "version": "1.0",
     "manifest_version": 3,
-    "background": {
-        "service_worker": "background.js"
-    },
     "action": {
         "default_popup": "./App/popup.html",
         "default_icon": {
@@ -20,14 +17,6 @@
             "js": [
                 "./Scrap/utils.js",
                 "./Scrap/profile.js"
-            ]
-        },
-        {
-            "matches": [
-                "https://*.linkedin.com/in/*"
-            ],
-            "js": [
-                "./Scrap/load.js"
             ]
         }
     ],
