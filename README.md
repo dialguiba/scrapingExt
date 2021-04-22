@@ -7,12 +7,13 @@
 
 ### In Progress
 
-- [ ] Scrap all pages
+- [ ] Create API
 
 ### Done ✓
 
 - [x] Input for specific search
 - [x] Scrap various profiles of one page
+- [x] Scrap all pages
 
 ## ORIGINAL
 
