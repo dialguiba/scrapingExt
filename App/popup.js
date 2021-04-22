@@ -44,44 +44,74 @@ formstrap.addEventListener("submit", async (e) => {
 
   chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
     if (request.pages) {
-      let pagesUrls = [];
+      console.log(request.pages);
 
-      for (let i = 1; i <= parseInt(request.pages); i++) {
-        pagesUrls.push(`https://www.linkedin.com/search/results/people/?keywords=${input}&network=%22F%22&origin=FACETED_SEARCH&page=${i}`);
-      }
-
-      await asyncForEach(pagesUrls, async (url) => {
-        chrome.tabs.update({
-          url,
-        });
-        await wait(5000);
-
+      if (request.pages == -1) {
         chrome.scripting.executeScript({
           target: { tabId: activeTab.id },
           files: ["./Scrap/init.js"],
         });
 
         await wait(5000);
-      });
 
-      await asyncForEach(links, async (el) => {
-        chrome.tabs.update({ url: el });
+        await asyncForEach(links, async (el) => {
+          chrome.tabs.update({ url: el });
 
-        /* carga de página */
-        await wait(5000);
+          /* carga de página */
+          await wait(5000);
+
+          chrome.scripting.executeScript({
+            target: { tabId: activeTab.id },
+            files: ["./Scrap/individualProfile.js"],
+          });
+
+          await wait(11000);
+        });
 
         chrome.scripting.executeScript({
           target: { tabId: activeTab.id },
-          files: ["./Scrap/individualProfile.js"],
+          files: ["./Scrap/allData.js"],
+        });
+      } else {
+        let pagesUrls = [];
+
+        for (let i = 1; i <= parseInt(request.pages); i++) {
+          pagesUrls.push(`https://www.linkedin.com/search/results/people/?keywords=${input}&network=%22F%22&origin=FACETED_SEARCH&page=${i}`);
+        }
+
+        await asyncForEach(pagesUrls, async (url) => {
+          chrome.tabs.update({
+            url,
+          });
+          await wait(5000);
+
+          chrome.scripting.executeScript({
+            target: { tabId: activeTab.id },
+            files: ["./Scrap/init.js"],
+          });
+
+          await wait(5000);
         });
 
-        await wait(11000);
-      });
+        await asyncForEach(links, async (el) => {
+          chrome.tabs.update({ url: el });
 
-      chrome.scripting.executeScript({
-        target: { tabId: activeTab.id },
-        files: ["./Scrap/allData.js"],
-      });
+          /* carga de página */
+          await wait(5000);
+
+          chrome.scripting.executeScript({
+            target: { tabId: activeTab.id },
+            files: ["./Scrap/individualProfile.js"],
+          });
+
+          await wait(11000);
+        });
+
+        chrome.scripting.executeScript({
+          target: { tabId: activeTab.id },
+          files: ["./Scrap/allData.js"],
+        });
+      }
     } else if (request.links) {
       links.push(...request.links);
     } else if (request.profile) {

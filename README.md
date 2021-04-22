@@ -14,6 +14,7 @@
 - [x] Input for specific search
 - [x] Scrap various profiles of one page
 - [x] Scrap all pages
+- [x] Scrap when is just one page
 
 ## ORIGINAL
 
