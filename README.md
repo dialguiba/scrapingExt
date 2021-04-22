@@ -2,8 +2,7 @@
 
 ### Todo
 
-- [ ] Create API
-- [ ] Send data to DB
+- [ ] Modify extension so it can send data to DB
 
 ### In Progress
 
