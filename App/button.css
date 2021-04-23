@@ -4,5 +4,21 @@ button {
   border-radius: 4px;
   color: #ffffff;
   padding: 8px;
-  width: 100px;
+  width: 100%;
+}
+.inputText {
+  width: 250px;
+  height: 30px;
+}
+.radioButtons {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0px;
+}
+
+.type-of-contacts {
+  border-radius: 5px;
+  border: solid gray thin;
+  margin: 15px 0 5px 0;
+  padding: 5px;
 }

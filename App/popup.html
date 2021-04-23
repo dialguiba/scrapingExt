@@ -6,8 +6,26 @@
   <body>
     <p id="alert"></p>
     <form id="formstrap">
-      <input type="text" placeholder="Buscar" id="inputstrap" autofocus />
-      <button id="btnstrap">LinkedIn Scrapy</button>
+      <input class="inputText" type="text" placeholder="Buscar" id="inputstrap" autofocus />
+      <div class="type-of-contacts">
+        <div class="radioButtonsTitle">Type of contacts:</div>
+        <div class="radioButtons">
+          <div>
+            <input type="radio" id="male" name="gender" value="male" checked />
+            <label for="male">1</label>
+          </div>
+          <div>
+            <input type="radio" id="female" name="gender" value="female" disabled />
+            <label for="female">2</label>
+          </div>
+          <div>
+            <input type="radio" id="other" name="gender" value="other" disabled />
+            <label for="other">3 and more</label>
+          </div>
+        </div>
+      </div>
+
+      <button id="btnstrap">Scrapy!</button>
     </form>
     <p id="message"></p>
     <script src="popup.js"></script>

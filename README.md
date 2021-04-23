@@ -1,4 +1,12 @@
-## _LinkedIn Scrapping_
+# _LinkedIn Scrapping_
+
+(Actualmente funcionando para el tipo de contactos "1er")
+
+## Note:
+
+Don't close popup during scrapping neither change window. Also, when scrapping finishes you have to wait some seconds until a message with a button for sending info to database appears.
+
+No cerrar el popup durante el scrapping ni cambiar la ventana o tab. Además, cuando el scrapping termine se debe esperar unos segundos hasta que aparezca un mensaje con toda la data extraída y un botón para enviarla a la base de datos en mongo.
 
 ### Todo
 
@@ -6,10 +14,11 @@
 
 ### In Progress
 
-- [ ] Modify extension so it can send data to DB
+- [ ] Can choose what type of contact do you want to scrap
 
 ### Done ✓
 
+- [x] Modify extension so it can send data to DB
 - [x] Create API (https://github.com/dialguiba/scrapingExtApi)
 - [x] Input for specific search
 - [x] Scrap various profiles of one page
