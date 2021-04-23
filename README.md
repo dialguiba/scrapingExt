@@ -2,14 +2,15 @@
 
 ### Todo
 
-- [ ] Modify extension so it can send data to DB
+- [ ] Improve code (Refactor some things)
 
 ### In Progress
 
-- [ ] Create API (https://github.com/dialguiba/scrapingExtApi)
+- [ ] Modify extension so it can send data to DB
 
 ### Done ✓
 
+- [x] Create API (https://github.com/dialguiba/scrapingExtApi)
 - [x] Input for specific search
 - [x] Scrap various profiles of one page
 - [x] Scrap all pages
