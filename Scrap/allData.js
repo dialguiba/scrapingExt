@@ -2,7 +2,7 @@ const sendToDatabase = async (data, button) => {
   button.innerText = "Cargando...";
   button.style =
     "background-color: #98710d;border: 2px solid #3582e0;border-radius: 4px;color:#ffffff; padding: 8px;position: absolute;bottom: 10px;right: 10px;";
-  const rawResponse = await fetch("https://bootcamp-scrap-ext.herokuapp.com/api/profiles", {
+  const rawResponse = await fetch("https://bootcamp-scrap-ext.herokuapp.com/api/v1/profile/storage", {
     method: "POST",
     headers: {
       "Content-Type": "text/plain",
