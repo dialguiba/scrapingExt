@@ -1,6 +1,6 @@
-# _LinkedIn Scrapping_
+# _LinkedIn Scrapping_ ⛏️
 
-(Actualmente funcionando para el tipo de contactos "1er")
+![preview](./readme-assets/asset1)
 
 ## Note:
 
