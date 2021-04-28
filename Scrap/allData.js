@@ -1,7 +1,7 @@
 const sendToDatabase = async (data, button) => {
   button.innerText = "Cargando...";
-  button.style =
-    "background-color: #98710d;border: 2px solid #3582e0;border-radius: 4px;color:#ffffff; padding: 8px;position: absolute;bottom: 10px;right: 10px;";
+  button.style.backgroundColor = "#98710d";
+  button.style.cursor = "progress";
   const rawResponse = await fetch("https://bootcamp-scrap-ext.herokuapp.com/api/v1/profile/storage", {
     method: "POST",
     headers: {
@@ -10,22 +10,16 @@ const sendToDatabase = async (data, button) => {
     body: JSON.stringify(data),
   });
   button.innerText = "Completado";
-  button.style =
-    "background-color: #3582e0;border: 2px solid #3582e0;border-radius: 4px;color:#ffffff; padding: 8px;position: absolute;bottom: 10px;right: 10px;";
+  button.style.backgroundColor = "#6A716A";
+  button.style.cursor = "not-allowed";
   button.removeEventListener("click", sendToDatabase);
   button.disabled = true;
 };
 
 chrome.runtime.sendMessage({ sendMeData: "send" }, function (response) {
   const { div, pre, button } = createFinalPopup();
-  pre.innerText = "Please, check the data before send! \n";
+  pre.innerText = "Please, check the data before send! \n\n";
   pre.innerText = pre.innerText + JSON.stringify(response.dataToSend, null, 2);
-
-  const buttonSend = document.createElement("button");
-  button.id = "krowdy-profile-button";
-  button.style =
-    "background-color: #3582e0;border: 2px solid #3582e0;border-radius: 4px;color:#ffffff; padding: 8px;position: absolute;bottom: 10px;right: 10px;";
-  button.innerText = "Enviar";
 
   button.addEventListener(
     "click",
@@ -35,5 +29,5 @@ chrome.runtime.sendMessage({ sendMeData: "send" }, function (response) {
     false
   );
 
-  pre.appendChild(button);
+  chrome.runtime.sendMessage({ finished: "finish" });
 });

@@ -11,23 +11,26 @@
         <div class="radioButtonsTitle">Type of contacts:</div>
         <div class="radioButtons">
           <div>
-            <input type="radio" id="male" name="gender" value="male" checked />
+            <input type="radio" name="contactType" value="F" checked class="radioButton" />
             <label for="male">1</label>
           </div>
           <div>
-            <input type="radio" id="female" name="gender" value="female" disabled />
+            <input type="radio" name="contactType" value="S" class="radioButton" />
             <label for="female">2</label>
           </div>
           <div>
-            <input type="radio" id="other" name="gender" value="other" disabled />
+            <input type="radio" name="contactType" value="O" class="radioButton" />
             <label for="other">3 and more</label>
           </div>
         </div>
       </div>
 
       <button id="btnstrap">Scrapy!</button>
-      <a href="https://bootcamp-scrap-ext.herokuapp.com/api/v1/profile/read-all" target="_blank"">Actual Data</a>
+      <a href="https://bootcamp-scrap-ext.herokuapp.com/api/v1/profile/read-all" target="_blank">Actual Data</a>
     </form>
+    <div style="display: none" id="loadingRing" class="load">
+      <div class="ring"></div>
+    </div>
     <p id="message"></p>
     <script src="popup.js"></script>
   </body>

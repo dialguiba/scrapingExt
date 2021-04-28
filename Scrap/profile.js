@@ -36,7 +36,7 @@ const scrapingProfile = () => {
     },
     option: {
       buttonSeeMore: ".pv3 a",
-      buttonCloseSeeMore: "button.artdeco-modal__dismiss",
+      buttonCloseSeeMore: ".artdeco-modal__dismiss",
       buttonAboutSeeMore: "line-clamp-show-more-button",
       buttonExperienceSeeMore: "button.pv-profile-section__see-more-inline",
       buttonExperienceCloseSeeMore: "button.pv-profile-section__see-less-secondary-inline",
@@ -231,7 +231,7 @@ const scrapingProfile = () => {
   };
 
   const getProfile = async () => {
-    const { div, pre, button } = createPopup();
+    const { div, pre } = createPopup();
 
     await autoscrollToElement("body");
 
@@ -256,9 +256,9 @@ const scrapingProfile = () => {
     /* send message with data to background */
     chrome.runtime.sendMessage({ profile });
 
-    button.addEventListener("click", () => {
+    /* button.addEventListener("click", () => {
       div.remove();
-    });
+    }); */
   };
 
   getProfile();

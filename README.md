@@ -10,14 +10,15 @@ No cerrar el popup durante el scrapping ni cambiar la ventana o tab. Además, cu
 
 ### Todo
 
-- [ ] Improve code (Refactor some things)
+- [ ] Add button to erase div created
 
 ### In Progress
 
-- [ ] Can choose what type of contact do you want to scrap
+- [ ] Improve code (Refactor some things)
 
 ### Done ✓
 
+- [x] Can choose what type of contact do you want to scrap
 - [x] Modify extension so it can send data to DB
 - [x] Create API (https://github.com/dialguiba/scrapingExtApi)
 - [x] Input for specific search

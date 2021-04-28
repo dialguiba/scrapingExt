@@ -1,9 +1,12 @@
 let inputStrap = document.getElementById("inputstrap");
 let message = document.getElementById("message");
 let formstrap = document.getElementById("formstrap");
+let fieldRadioButtons = document.getElementById("radioButtons");
+let loadingRing = document.getElementById("loadingRing");
 
 let dataToSend = [];
 let links = [];
+let pagesUrls = [];
 
 const wait = (milliseconds) => {
   return new Promise(function (resolve) {
@@ -19,12 +22,28 @@ async function asyncForEach(array, callback) {
   }
 }
 
+function getSelectedRadio(name) {
+  let radios = formstrap.elements[name];
+  let selected;
+
+  radios.forEach((radio) => {
+    if (radio.checked) selected = radio.value;
+  });
+
+  return selected;
+}
+
 formstrap.addEventListener("submit", async (e) => {
   e.preventDefault();
+  links = [];
+  dataToSend = [];
+  pagesUrls = [];
+  loadingRing.style.display = "block";
   let input = inputStrap.value;
   message.innerText = "Please, dont close this window until scrapping has finished";
+  let selectedRadio = getSelectedRadio("contactType");
 
-  chrome.tabs.update({ url: `https://www.linkedin.com/search/results/people/?keywords=${input}&network=%22F%22&origin=FACETED_SEARCH` });
+  chrome.tabs.update({ url: `https://www.linkedin.com/search/results/people/?keywords=${input}&network=%22${selectedRadio}%22&origin=FACETED_SEARCH` });
 
   await wait(6000);
 
@@ -40,13 +59,11 @@ formstrap.addEventListener("submit", async (e) => {
     pAlert.innerText = "No se tiene permiso para los tabs.";
   }
 
-  let links = [];
-
-  chrome.runtime.onMessage.addListener(async function (request, sender, sendResponse) {
+  chrome.runtime.onMessage.addListener(async function doStuff(request, sender, sendResponse) {
     if (request.pages) {
-      console.log(request.pages);
-
       if (request.pages == -1) {
+        console.log(links, dataToSend, pagesUrls);
+        console.log(request.pages);
         chrome.scripting.executeScript({
           target: { tabId: activeTab.id },
           files: ["./Scrap/init.js"],
@@ -57,7 +74,6 @@ formstrap.addEventListener("submit", async (e) => {
         await asyncForEach(links, async (el) => {
           chrome.tabs.update({ url: el });
 
-          /* carga de página */
           await wait(5000);
 
           chrome.scripting.executeScript({
@@ -73,10 +89,8 @@ formstrap.addEventListener("submit", async (e) => {
           files: ["./Scrap/allData.js"],
         });
       } else {
-        let pagesUrls = [];
-
         for (let i = 1; i <= parseInt(request.pages); i++) {
-          pagesUrls.push(`https://www.linkedin.com/search/results/people/?keywords=${input}&network=%22F%22&origin=FACETED_SEARCH&page=${i}`);
+          pagesUrls.push(`https://www.linkedin.com/search/results/people/?keywords=${input}&network=%22${selectedRadio}%22&origin=FACETED_SEARCH&page=${i}`);
         }
 
         await asyncForEach(pagesUrls, async (url) => {
@@ -96,7 +110,6 @@ formstrap.addEventListener("submit", async (e) => {
         await asyncForEach(links, async (el) => {
           chrome.tabs.update({ url: el });
 
-          /* carga de página */
           await wait(5000);
 
           chrome.scripting.executeScript({
@@ -118,6 +131,10 @@ formstrap.addEventListener("submit", async (e) => {
       dataToSend.push(request.profile);
     } else if (request.sendMeData) {
       sendResponse({ dataToSend });
+    } else if (request.finished) {
+      chrome.runtime.onMessage.removeListener(doStuff);
+      loadingRing.style.display = "none";
+      message.innerText = "FINISHED";
     }
   });
 });
