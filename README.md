@@ -10,6 +10,7 @@ No cerrar el popup durante el scrapping ni cambiar la ventana o tab. Además, cu
 
 ### Todo
 
+- [ ] Can download data in .csv or pdf
 - [ ] Add button to erase div created
 - [ ] Add dynamic selectors
 - [ ] Group data by dates
