@@ -5,7 +5,7 @@ const scrapingProfile = () => {
     profile: {
       name: ".ph5 h1",
       resumen: ".pv-text-details__left-panel div:nth-child(2)",
-      country: "pv-text-details__left-panel div:nth-child(3) span",
+      country: ".pb2 span",
       email: "div > section.pv-contact-info__contact-type.ci-email > div > a",
       phone: "div > section.pv-contact-info__contact-type.ci-phone > ul > li > span",
       urlLinkedin: "div > section.pv-contact-info__contact-type.ci-vanity-url > div > a",
@@ -35,7 +35,7 @@ const scrapingProfile = () => {
       educationChildrenDuration: "div.pv-entity__summary-info.pv-entity__summary-info--background-section > p > span:nth-child(2)",
     },
     option: {
-      buttonSeeMore: ".pv3 a",
+      buttonSeeMore: ".pb2 a",
       buttonCloseSeeMore: ".artdeco-modal__dismiss",
       buttonAboutSeeMore: "line-clamp-show-more-button",
       buttonExperienceSeeMore: "button.pv-profile-section__see-more-inline",
