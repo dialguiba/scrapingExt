@@ -75,13 +75,24 @@ const createFinalPopup = () => {
   button.id = "krowdy-profile-button";
   button.style = "background-color: #3582e0;border-radius: 4px;color:#ffffff; padding: 8px;position: absolute;bottom: 20px;right: 30px;";
 
-  button.innerText = "Enviar";
+  button.innerText = "Send";
 
   const bodyElement = document.querySelector("div.body");
   bodyElement.appendChild(div);
 
-  div.appendChild(pre);
-  div.appendChild(button);
+  const inputEndpoint = document.createElement("input");
+  inputEndpoint.placeholder = "Api Endpoint for saving this json";
+  inputEndpoint.id = "endpoint-input";
+  inputEndpoint.style = "position: absolute; bottom: 60px; right: 30px; padding: 10px";
 
-  return { div, pre, button };
+  /* const buttonCsv = document.createElement("button");
+  buttonCsv.style = "background-color: #3582e0;border-radius: 4px;color:#ffffff; padding: 8px;position: absolute;bottom: 20px;right: 30px;";
+  buttonCsv.innerText = "Csv Download"; */
+
+  div.appendChild(pre);
+  div.appendChild(inputEndpoint);
+  div.appendChild(button);
+  /* div.appendChild(buttonCsv); */
+
+  return { div, pre, button, inputEndpoint };
 };

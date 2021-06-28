@@ -40,7 +40,7 @@ formstrap.addEventListener("submit", async (e) => {
   pagesUrls = [];
   loadingRing.style.display = "block";
   let input = inputStrap.value;
-  message.innerText = "Please, dont close this window until scrapping has finished";
+  message.innerText = "Please, dont close this window pop up until scrapping has finished and the file has been downloaded.";
   let selectedRadio = getSelectedRadio("contactType");
 
   chrome.tabs.update({ url: `https://www.linkedin.com/search/results/people/?keywords=${input}&network=%22${selectedRadio}%22&origin=FACETED_SEARCH` });
@@ -131,6 +131,18 @@ formstrap.addEventListener("submit", async (e) => {
       dataToSend.push(request.profile);
     } else if (request.sendMeData) {
       sendResponse({ dataToSend });
+      /*  */
+      const dataPrepared = convertToCSV(dataToSend);
+
+      let csvContent = "data:text/csv;charset=utf-8," + dataPrepared;
+
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "my_data.csv");
+      document.body.appendChild(link); // Required for FF
+
+      link.click();
     } else if (request.finished) {
       chrome.runtime.onMessage.removeListener(doStuff);
       loadingRing.style.display = "none";
@@ -138,3 +150,9 @@ formstrap.addEventListener("submit", async (e) => {
     }
   });
 });
+
+function convertToCSV(arr) {
+  const array = [Object.keys(arr[0])].concat(arr);
+
+  return array.map((it) => (typeof it !== "object" ? Object.values(it).toString() : JSON.stringify(it))).join("\n");
+}

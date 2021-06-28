@@ -2,7 +2,7 @@
     "name": "Linkedin Profile",
     "description": "Get Profile Linkedin",
     "version": "1.0",
-    "manifest_version": 3,
+    "manifest_version": 3,  
     "action": {
         "default_popup": "./App/popup.html",
         "default_icon": {
