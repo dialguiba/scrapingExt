@@ -1,6 +1,6 @@
 {
-    "name": "Linkedin Profile",
-    "description": "Get Profile Linkedin",
+    "name": "Linkedin Profiles Downloader",
+    "description": "Get Profiles data from Linkedin",
     "version": "1.0",
     "manifest_version": 3,  
     "action": {
